@@ -1,4 +1,4 @@
-import Bot from "../Bot";
+import Bot from "../clients/Discord";
 import readline from "readline";
 import findRecursive from "@spaceproject/findrecursive";
 import { CliCommand } from "../types/Executors";

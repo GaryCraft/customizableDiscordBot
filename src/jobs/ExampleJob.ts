@@ -1,4 +1,4 @@
-import Bot from "../Bot";
+import Bot from "../clients/Discord";
 import { Job } from "../types/Executors";
 
 const job: Job = {

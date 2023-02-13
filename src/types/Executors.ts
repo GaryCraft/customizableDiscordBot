@@ -1,5 +1,5 @@
 import { AnySelectMenuInteraction, ApplicationCommandOption, ApplicationCommandType, CommandInteraction, Message, ModalSubmitInteraction } from "discord.js";
-import Bot from "../Bot";
+import Bot from "../clients/Discord";
 
 interface Command {
 	name: string;

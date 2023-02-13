@@ -4,11 +4,14 @@
 	"description": "A customizable Discord general-purpose bot, written in TypeScript",
 	"main": "dist/index.js",
 	"engines": {
-		"node": ">=17.x"
+		"node": ">=18.x"
 	},
 	"scripts": {
 		"start": "node dist/index.js",
-		"build": "tsc --build",
+		"build": "npm run clean && npm run tsc && npm run tsc-alias",
+		"clean": "rimraf dist",
+		"tsc": "tsc --build tsconfig.json",
+		"tsc-alias": "tsc-alias -p tsconfig.json",
 		"deploy": "npm run build && npm run start",
 		"dev": "npx nodemon --exec \"npm run deploy\" -e \"ts\""
 	},
@@ -30,7 +33,8 @@
 		"@typescript-eslint/parser": "^5.29.0",
 		"eslint": "^8.13.0",
 		"sqlite3": "^5.0.8",
-		"typescript": "^4.8.0-dev.20220613"
+		"tsc-alias": "^1.8.2",
+		"typescript": "^4.9.4"
 	},
 	"dependencies": {
 		"@haileybot/captcha-generator": "^1.7.0",

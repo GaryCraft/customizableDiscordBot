@@ -1,5 +1,5 @@
 {
-    "compilerOptions": {
+	"compilerOptions": {
 		"module": "NodeNext",
 		"esModuleInterop": true,
 		"target": "ES6",
@@ -11,8 +11,12 @@
 		"strict": true,
 		"strictNullChecks": true,
 		"skipLibCheck": true,
-    },
-    "include": [
-        "./src/**/*.ts"
-	]
+		"baseUrl": ".",
+		"paths": {
+			"@src/*": ["src/*"]
+		}
+	},
+	"include": [
+		"./src/**/*.ts"
+	],
 }
