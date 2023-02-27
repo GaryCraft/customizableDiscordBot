@@ -4,11 +4,11 @@ import { Command, Interaction, Job } from "../../types/Executors";
 import Schedule from "node-schedule";
 import SPDatabase from "../../database";
 import { Log } from "../../util/Logger";
-import { BotConfig } from "../../types/Config";
-import API from "@src/api/API";
+import { BotConfig, DatabaseConfig } from "../../types/Config";
 import { JSONPackage } from "../../types/JSONPackage";
-import CLI from "../../cli/CLI";
+import CLI from "../../cli";
 import findRecursive from "@spaceproject/findrecursive";
+import Config from "@src/modular/config";
 
 const nonPrivilegedIntents = [
 	GatewayIntentBits.Guilds,
@@ -35,11 +35,12 @@ let intents: GatewayIntentBits[] = [];
 class Bot extends Client {
 	logger: Log.Logger;
 	readonly config: BotConfig;
+	readonly dbConfig: DatabaseConfig;
 	commands: Collection<string, Command>;
 	interactions: Collection<string, Interaction>;
 	jobs: Collection<string, Job>;
 	readonly database: SPDatabase;
-	readonly server: API;
+
 	readonly commandline: CLI;
 	readonly package: JSONPackage;
 	constructor() {
@@ -56,9 +57,10 @@ class Bot extends Client {
 		this.commands = new Collection();
 		this.interactions = new Collection();
 		this.jobs = new Collection();
-		this.config = require("../config");
-		this.database = new SPDatabase(this.config.database);
-		this.server = new API(this);
+		
+		this.config = Config.getClientConfig("discord");
+		this.dbConfig = require("../../config.js").database;
+		this.database = new SPDatabase(this.dbConfig);
 		this.commandline = new CLI(this, process.stdin, process.stdout);
 		this.package = require("../package.json");
 	}

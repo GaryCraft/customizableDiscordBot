@@ -1,4 +1,5 @@
-import Bot from "./clients/Discord";
+import Config from "./modular/config";
 
-const client = new Bot();
-client.start();
+new Config();
+
+console.log(Config.getFullConfig());

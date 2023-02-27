@@ -1,16 +1,13 @@
 import findRecursive from "@spaceproject/findrecursive";
 import express from "express";
 import Express from "express";
-import Bot from "./Bot";
-import { ServerRequest } from "./types/API";
+import { ServerRequest } from "../types/API";
 export interface Req<T> extends Express.Request {
 	body: T
 }
 class API {
-	client: Bot;
 	server: Express.Application;
-	constructor(client: Bot) {
-		this.client = client;
+	constructor() {
 		this.server = Express();
 
 		// this will parse Content-Type: application/json
@@ -24,10 +21,10 @@ class API {
 			next();
 		});
 		// Add the app to the request object
-		this.server.use((req, _res, next) => {
-			(req as unknown as ServerRequest).parentApp = client;
+		/* this.server.use((req, _res, next) => {
+			(req as unknown as ServerRequest).parentApp = null;
 			next();
-		});
+		}); */
 
 		this.server.get("/", function (req, res) {
 			return res.send("This is an SpaceProject based API");
@@ -35,9 +32,9 @@ class API {
 
 		this.registerRoutes();
 
-		this.server.listen(client.config.api.port, () => {
+		/* this.server.listen(client.config.api.port, () => {
 			client.logger.info(`API is listening on port ${client.config.api.port}`);
-		});
+		}); */
 	}
 	private async registerRoutes() {
 		// Load files recursively from the routes directory
@@ -48,7 +45,7 @@ class API {
 			if (!file.endsWith(".js")) continue;
 			const { default: route } = await import(`${dir}/${file}`);
 			const serverRoute = `${dir.replace(globalDirName, "")}/${file.split(".")[0]}`.replace(/\$/g, ":");
-			this.client.logger.info(`Registering route ${serverRoute}`);
+			/* this.client.logger.info(`Registering route ${serverRoute}`); */
 			const Iroute = this.server.route(serverRoute);
 			// Register the route methods
 			route.get ? Iroute.get(route.get) : null;
@@ -63,7 +60,7 @@ class API {
 		this.server.get("*", (_req, res) => {
 			res.status(404).send("Not found.");
 		});
-		this.client.logger.info(`Registered ${fileRoutes.length} routes`);
+		/* this.client.logger.info(`Registered ${fileRoutes.length} routes`); */
 	}
 }
 export default API;
