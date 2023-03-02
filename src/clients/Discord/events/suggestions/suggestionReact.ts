@@ -1,6 +1,6 @@
 import { MessageReaction, User } from "discord.js";
 import GuildSuggestion from "@src/database/models/GuildSuggestion";
-import { EventExecutor } from "@src/types/Executors";
+import { EventExecutor } from "@src/types/ClientExecutors";
 
 
 const e: EventExecutor<{ reaction: MessageReaction, user:User }> = async (client, params) => {

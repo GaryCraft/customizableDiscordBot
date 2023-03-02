@@ -1,7 +1,7 @@
-import { MessageContextMenuCommandInteraction, EmbedBuilder, PermissionFlagsBits, Attachment, ApplicationCommandType } from "discord.js";
+import { MessageContextMenuCommandInteraction, EmbedBuilder, PermissionFlagsBits, Attachment, ApplicationCommandType, StageChannel, ChannelType } from "discord.js";
 import Bot from "@src/clients/Discord";
 import GuildData from "@src/database/models/GuildData";
-import { Interaction } from "@src/types/Executors";
+import { Interaction } from "@src/types/ClientExecutors";
 const interaction:Interaction = {
 	name: "send to museum",
 	type: ApplicationCommandType.Message,
@@ -36,6 +36,14 @@ const interaction:Interaction = {
 			],
 			ephemeral: true
 		});
+		if (interaction.channel?.type == ChannelType.GuildStageVoice) return interaction.reply({
+			embeds: [
+				new EmbedBuilder()
+					.setTitle("You cannot send messages to the museum from a stage channel.")
+					.setColor(`#${client.config.defaultEmbedColor}`)
+			],
+			ephemeral: true
+		});
 		const targetMessage = await interaction.channel?.messages.fetch(interaction.targetMessage.id);
 		const msgAttachments = targetMessage?.attachments;
 		if (!msgAttachments) return interaction.reply({
@@ -64,7 +72,8 @@ const interaction:Interaction = {
 			ephemeral: true
 		});
 		const channel = client.channels.cache.get(`${guildData.museumId}`) || await client.channels.fetch(`${guildData.museumId}`).catch(() => null);
-		if (!channel || !channel.isTextBased()) return interaction.reply({
+		// If the channel is not a text channel, return
+		if (!channel || !channel.isTextBased() || channel.type == ChannelType.GuildStageVoice) return interaction.reply({
 			embeds: [
 				new EmbedBuilder()
 					.setTitle("Museum Channel is not configured in this server or is not valid.")

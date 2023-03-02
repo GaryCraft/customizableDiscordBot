@@ -1,7 +1,7 @@
 import { ChatInputCommandInteraction, EmbedBuilder, TextChannel } from "discord.js";
 import Bot from "@src/clients/Discord";
 import GuildMessageEmbed from "@src/database/models/MessageEmbed";
-import { Interaction } from "@src/types/Executors";
+import { Interaction } from "@src/types/ClientExecutors";
 import { buildEmbedFrom } from "@src/util/Functions";
 
 const interaction: Interaction = {

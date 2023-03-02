@@ -1,6 +1,6 @@
 import { GuildMember, TextChannel } from "discord.js";
 import GuildWelcome from "@src/database/models/GuildWelcome";
-import { EventExecutor } from "@src/types/Executors";
+import { EventExecutor } from "@src/types/ClientExecutors";
 import { buildEmbedFrom } from "@src/util/Functions";
 
 const e: EventExecutor<{ member: GuildMember }> = async (client, params) => {

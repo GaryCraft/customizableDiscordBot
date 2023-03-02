@@ -1,14 +1,22 @@
 import findRecursive from "@spaceproject/findrecursive";
+import Config from "@src/modular/config";
+import { Log } from "@src/modular/logging";
 import express from "express";
 import Express from "express";
+import { Server } from "socket.io"; 
 import { ServerRequest } from "../types/API";
 export interface Req<T> extends Express.Request {
 	body: T
 }
 class API {
 	server: Express.Application;
+	wsServer: Server;
+	config = Config.getApiConfig()
 	constructor() {
 		this.server = Express();
+		this.wsServer = new Server({
+			path: "/ws",
+		});
 
 		// this will parse Content-Type: application/json
 		this.server.use(express.json());
@@ -35,6 +43,9 @@ class API {
 		/* this.server.listen(client.config.api.port, () => {
 			client.logger.info(`API is listening on port ${client.config.api.port}`);
 		}); */
+		this.server.listen(this.config.port, () => {
+			Log.Logger.info("[API]", `Listening on port ${this.config.port}`);
+		});
 	}
 	private async registerRoutes() {
 		// Load files recursively from the routes directory

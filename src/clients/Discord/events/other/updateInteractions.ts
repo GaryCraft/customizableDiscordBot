@@ -1,5 +1,5 @@
 import { ApplicationCommandDataResolvable, ApplicationCommandType, Guild } from "discord.js";
-import { EventExecutor } from "@src/types/Executors";
+import { EventExecutor } from "@src/types/ClientExecutors";
 
 interface CleanInteraction {
 	name: string;

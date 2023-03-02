@@ -1,7 +1,7 @@
 import { CommandInteraction, ActionRowBuilder, ButtonBuilder, EmbedBuilder, TextChannel, PermissionFlagsBits, ButtonStyle } from "discord.js";
 import Bot from "@src/clients/Discord";
 import GuildVerify from "@src/database/models/GuildVerify";
-import { Interaction } from "@src/types/Executors";
+import { Interaction } from "@src/types/ClientExecutors";
 import { buildEmbedFrom } from "@src/util/Functions";
 
 const interaction: Interaction = {

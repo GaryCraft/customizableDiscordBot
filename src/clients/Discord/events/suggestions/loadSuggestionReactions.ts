@@ -1,6 +1,6 @@
-import { MessageReaction } from "discord.js";
+import { ChannelType, MessageReaction } from "discord.js";
 import GuildSuggestion from "@src/database/models/GuildSuggestion";
-import { EventExecutor } from "@src/types/Executors";
+import { EventExecutor } from "@src/types/ClientExecutors";
 
 
 const e: EventExecutor<never> = async (client) => {
@@ -9,9 +9,9 @@ const e: EventExecutor<never> = async (client) => {
 	for await (const guildSuggestion of guildSuggestions) {
 		if(!guildSuggestion.activeMessageId) continue;
 		const channel = client.channels.cache.get(`${guildSuggestion.config.publicChannel}`);
-		if(!channel || !channel.isTextBased()) continue;
+		if(!channel || !channel.isTextBased() || channel.type == ChannelType.GuildStageVoice) continue;
 		const message = await channel.messages.fetch(guildSuggestion.activeMessageId).catch(() => {
-			client.logger.warn(`Message ${guildSuggestion.activeMessageId} not found when sending suggestion`);
+			client.logger.warn(`${client.shard?.ids[0] ?? "Discord Client"}`, `Message ${guildSuggestion.activeMessageId} not found when sending suggestion`);
 		});
 
 		if(!message) continue;
@@ -25,7 +25,7 @@ const e: EventExecutor<never> = async (client) => {
 			}
 		});
 		guildSuggestion.count = count;
-		client.logger.info(`Suggestion ${guildSuggestion.id} has ${count} votes now`);
+		client.logger.info(`${client.shard?.ids[0] ?? "Discord Client"}`, `Suggestion ${guildSuggestion.id} has ${count} votes now`);
 		await guildSuggestionRepository.save({...guildSuggestion});
 	}
 };

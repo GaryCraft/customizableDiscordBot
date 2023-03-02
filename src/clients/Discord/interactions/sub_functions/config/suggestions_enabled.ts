@@ -2,7 +2,7 @@ import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import Bot from "@src/clients/Discord";
 import GuildData from "@src/database/models/GuildData";
 import GuildSuggest from "@src/database/models/GuildSuggest";
-import { Interaction } from "@src/types/Executors";
+import { Interaction } from "@src/types/ClientExecutors";
 const interaction: Interaction = {
 	name: "suggestions enabled",
 	type: "SubFunction",

@@ -1,12 +1,12 @@
 import { ButtonInteraction, GuildMember, EmbedBuilder } from "discord.js";
 import Bot from "@src/clients/Discord";
 import GuildVerify from "@src/database/models/GuildVerify";
-import { EventExecutor } from "@src/types/Executors";
+import { EventExecutor } from "@src/types/ClientExecutors";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 const e: EventExecutor<{interaction:ButtonInteraction}> = async (client: Bot, params) => {
 	const { interaction } = params;
-	if (interaction.user.bot) return client.logger.info(`Verify ${interaction.user.tag} is a bot, ignoring`);
+	if (interaction.user.bot) return client.logger.info(`${client.shard?.ids[0] ?? "Discord Client"}`, `Verify ${interaction.user.tag} is a bot, ignoring`);
 	try {
 		const verifyRepo = client.database.source.getRepository(GuildVerify);
 		const verify = await verifyRepo.findOne({ where: { guildId: `${interaction.guildId}` } });
@@ -74,11 +74,11 @@ const e: EventExecutor<{interaction:ButtonInteraction}> = async (client: Bot, pa
 		}); */
 		//if (msg.content.toUpperCase() === captcha.value) {
 		await interaction.member.roles.add(verify.verifyRole);
-		client.logger.info(`${interaction.user.tag} has been verified`);
+		client.logger.info(`${client.shard?.ids[0] ?? "Discord Client"}`, `${interaction.user.tag} has been verified`);
 		//}
 		//await message.delete();
 	} catch (e) {
-		client.logger.error("Error in buttonVerify.ts", e);
+		client.logger.error(`${client.shard?.ids[0] ?? "Discord Client"}`, "Error in buttonVerify.ts", e);
 	}
 };
 export default e;

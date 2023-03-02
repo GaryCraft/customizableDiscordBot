@@ -1,7 +1,7 @@
 import { ActionRowBuilder, EmbedBuilder, SelectMenuBuilder, SelectMenuInteraction } from "discord.js";
 import Bot from "@src/clients/Discord";
 import GuildMessageEmbed from "@src/database/models/MessageEmbed";
-import { Interaction } from "@src/types/Executors";
+import { Interaction } from "@src/types/ClientExecutors";
 const interaction: Interaction = {
 	name: "embeds manage fields",
 	type: "SubFunction",

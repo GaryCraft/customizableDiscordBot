@@ -1,15 +1,16 @@
 import Bot from "../clients/Discord";
 import readline from "readline";
 import findRecursive from "@spaceproject/findrecursive";
-import { CliCommand } from "../types/Executors";
+import { CliCommand } from "@src/types/AppExecutors";
+import { App } from "@src/app";
 class CLI {
-	client: Bot;
+	app: App;
 	private input : NodeJS.ReadableStream;
 	private output : NodeJS.WritableStream;
 	private interface :readline.Interface;
 	readonly commands = new Map<string, CliCommand>();
-	constructor(client: Bot, output: NodeJS.WritableStream, input: NodeJS.ReadableStream) {
-		this.client = client;
+	constructor(app: App, output: NodeJS.WritableStream, input: NodeJS.ReadableStream) {
+		this.app = app;
 		this.input = input;
 		this.output = output;
 		this.interface = readline.createInterface({
@@ -34,7 +35,7 @@ class CLI {
 			const command = args.shift();
 			if (!command) return;
 			try {
-				this.commands.get(command)?.execute(this.client, args);
+				this.commands.get(command)?.execute(this.app, args);
 			} catch (error) {
 				console.log(error);
 			}

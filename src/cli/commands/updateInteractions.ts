@@ -1,4 +1,5 @@
-import { CliCommand } from "../../types/Executors";
+import { Log } from "@src/modular/logging";
+import { CliCommand } from "@src/types/AppExecutors";
 const cmd: CliCommand = {
 	name: "update-interactions",
 	description: "Updates all interactions",
@@ -6,19 +7,10 @@ const cmd: CliCommand = {
 	async execute(client, args) {
 		const guildId = args[0];
 		if (!guildId) {
-			client.logger.info("Updating all interactions");
-			client.emit("updateInteractions");
-			for await (const [, guild] of client.guilds.cache) {
-				client.emit("updateInteractions", {guild});
-			}
+			Log.Logger.info(`Main App`, "Updating interactions for all guilds");
+			
 		} else {
-			client.logger.info(`Updating interactions for guild ${guildId}`);
-			const guild = client.guilds.cache.get(guildId);
-			if (!guild) {
-				client.logger.error("Guild not found");
-				return;
-			}
-			client.emit("updateInteractions", {guild});
+			
 		}
 	}
 };

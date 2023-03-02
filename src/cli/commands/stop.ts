@@ -1,5 +1,5 @@
 import { setTimeout } from "timers/promises";
-import { CliCommand } from "../../types/Executors";
+import { CliCommand } from "@src/types/AppExecutors";
 const cmd: CliCommand = {
 	name: "stop",
 	description: "Stops the bot",
@@ -8,9 +8,9 @@ const cmd: CliCommand = {
 		if(args.length > 0){
 			await setTimeout(parseInt(args[0]) * 1000);
 		}
-		client.logger.info("Stopping Bot...");
-		client.destroy();
-		await client.database.source.destroy();
+		await client.shardingManager.broadcastEval((c) => {
+			c.destroy();
+		});
 		process.exit(0);
 	}
 };

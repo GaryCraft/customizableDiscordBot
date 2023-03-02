@@ -1,7 +1,7 @@
 import { ChatInputCommandInteraction, CommandInteraction, EmbedBuilder, PermissionFlagsBits, TextChannel } from "discord.js";
 import Bot from "@src/clients/Discord";
 import GuildSuggest from "@src/database/models/GuildSuggest";
-import { Interaction } from "@src/types/Executors";
+import { Interaction } from "@src/types/ClientExecutors";
 
 const interaction: Interaction = {
 	name: "suggestions channels",

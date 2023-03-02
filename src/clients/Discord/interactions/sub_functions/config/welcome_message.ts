@@ -2,7 +2,7 @@ import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import Bot from "@src/clients/Discord";
 import GuildWelcome from "@src/database/models/GuildWelcome";
 import DatabaseEmbed from "@src/database/models/MessageEmbed";
-import { Interaction } from "@src/types/Executors";
+import { Interaction } from "@src/types/ClientExecutors";
 
 const interaction: Interaction = {
 	name: "welcome message",

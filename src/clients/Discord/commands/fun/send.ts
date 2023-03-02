@@ -1,6 +1,6 @@
-import { Message, TextChannel, Attachment, PermissionFlagsBits } from "discord.js";
+import { Message, TextChannel, Attachment, PermissionFlagsBits, ChannelType } from "discord.js";
 import Bot from "@src/clients/Discord";
-import { Command } from "@src/types/Executors";
+import { Command } from "@src/types/ClientExecutors";
 
 const cmd: Command = {
 	name: "send",
@@ -10,10 +10,14 @@ const cmd: Command = {
 	usage: "{prefix}send",
 	async execute(client: Bot, message: Message, args: string[]): Promise<void> {
 		if (!message.member?.permissions.has(PermissionFlagsBits.Administrator) && !(client.config.admins.includes(message.member?.id as string))) return;
+		if (!message.channel.isTextBased || message.channel.type == ChannelType.GuildStageVoice) {
+			message.reply("You can only use this command in a text channel.");
+			return;
+		}
 
 		let content = args.join(" ");
 		let attachments: Attachment[] | undefined = [];
-		if (message.attachments.size){
+		if (message.attachments.size) {
 			for await (const [, attachment] of message.attachments) {
 				attachments.push(attachment);
 			}
@@ -24,7 +28,7 @@ const cmd: Command = {
 		if (channelIdRegex.test(channelId)) {
 			const channel = await client.channels.fetch(channelId.replace(/[<#>]/g, ""));
 			if (!channel) { message.channel.send("Could not find that channel."); return; }
-			if (!(channel instanceof TextChannel)) { message.channel.send("That channel is not a text channel."); return; }
+			if (!channel.isTextBased() || channel.type == ChannelType.GuildStageVoice) { message.channel.send("That channel is not a text channel."); return; }
 			content = content.replace(channelIdRegex, "");
 			content = content.trim();
 			content = content.length > 0 ? content : "** **";

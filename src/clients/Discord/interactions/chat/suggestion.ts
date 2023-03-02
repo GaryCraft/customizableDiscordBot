@@ -2,7 +2,7 @@ import { ApplicationCommandOptionType, ApplicationCommandType, ChatInputCommandI
 import Bot from "@src/clients/Discord";
 import GuildSuggest from "@src/database/models/GuildSuggest";
 import GuildSuggestion from "@src/database/models/GuildSuggestion";
-import { Interaction } from "@src/types/Executors";
+import { Interaction } from "@src/types/ClientExecutors";
 const notEnabledEmbed = new EmbedBuilder()
 	.setTitle("Suggestions are not enabled in this server.")
 	.setDescription("Administrators can enable them with `config suggestions`.");

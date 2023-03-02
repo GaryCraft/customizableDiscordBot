@@ -1,6 +1,6 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType, EmbedBuilder } from "discord.js";
 import GuildSuggestion from "@src/database/models/GuildSuggestion";
-import { EventExecutor } from "@src/types/Executors";
+import { EventExecutor } from "@src/types/ClientExecutors";
 
 
 const e: EventExecutor<{ suggestion: GuildSuggestion }> = async (client, params) => {
@@ -10,9 +10,9 @@ const e: EventExecutor<{ suggestion: GuildSuggestion }> = async (client, params)
 
 	const guildSuggest = suggestion.config;
 	const guild = client.guilds.cache.get(guildSuggest.guildId);
-	if (!guild) return client.logger.warn(`Guild ${guildSuggest.guildId} not found when sending suggestion`);
+	if (!guild) return client.logger.warn(`${client.shard?.ids[0] ?? "Discord Client"}`, `Guild ${guildSuggest.guildId} not found when sending suggestion`);
 	const channel = guild.channels.cache.get(`${guildSuggest.privateChannel}`);
-	if (!channel || !channel.isTextBased()) return client.logger.warn(`Channel ${guildSuggest.privateChannel} not found when sending suggestion`);
+	if (!channel || !channel.isTextBased() || channel.type == ChannelType.GuildStageVoice) return client.logger.warn(`${client.shard?.ids[0] ?? "Discord Client"}`,`Channel ${guildSuggest.privateChannel} not found when sending suggestion`);
 	const embed = new EmbedBuilder()
 		.setTitle("Suggestion needs approval, this means that it will be sent to be voted for!")
 		.setDescription(`${suggestion.value}`)

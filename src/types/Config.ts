@@ -12,7 +12,9 @@ class BotConfig {
 	token!: string;
 	@ValidateProperty({
 		type: "array",
-		subType: "string",
+		subTypeOptions:{
+			type: "string",
+		}
 	})
 	admins!: string[];
 	activity!: {
@@ -29,17 +31,15 @@ class BotConfig {
 class DatabaseConfig {
 	@ValidateProperty({
 		type: "string",
-		match: /^(sqlite|mysql)$/,
 	})
 	type!: "sqlite" | "mysql";
 	@ValidateProperty({
 		type: "string",
+		match: /^sqlite:\/\/\/.+/,
 	})
 	host!: string;
 	@ValidateProperty({
 		type: "number",
-		min: 1,
-		max: 65535,
 	})
 	port!: number;
 	@ValidateProperty({

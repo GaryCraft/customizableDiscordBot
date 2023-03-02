@@ -1,3 +1,4 @@
+import { App } from "@src/app";
 import { AnySelectMenuInteraction, ApplicationCommandOption, ApplicationCommandType, CommandInteraction, Message, ModalSubmitInteraction } from "discord.js";
 import Bot from "../clients/Discord";
 
@@ -28,11 +29,5 @@ interface Job {
 	cronInterval: string;
 	task: (client:Bot) => Promise<unknown>;
 }
-interface CliCommand {
-	name: string;
-	description: string;
-	usage: string;
-	execute(client:Bot, args:string[]): Promise<unknown>;
-}
 
-export { Command, Interaction, EventExecutor, Job, CliCommand };
+export { Command, Interaction, EventExecutor, Job };

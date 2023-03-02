@@ -1,5 +1,16 @@
-import Config from "./modular/config";
+import { initialize } from "@src/modular/initialize";
+import { App } from "./app";
 
-new Config();
+const app = new App();
 
-console.log(Config.getFullConfig());
+process.on("unhandledRejection", (reason, promise) => {
+	console.error("Unhandled Rejection at:", promise, "reason:", reason);
+});
+process.on("uncaughtException", (error) => {
+	console.error("Uncaught Exception at:", error);
+});
+
+app.on("ready", () => {
+	console.log("App ready");
+});
+

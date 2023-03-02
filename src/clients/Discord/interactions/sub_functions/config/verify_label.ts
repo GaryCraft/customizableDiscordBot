@@ -1,7 +1,7 @@
 import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import Bot from "@src/clients/Discord";
 import GuildVerify from "@src/database/models/GuildVerify";
-import { Interaction } from "@src/types/Executors";
+import { Interaction } from "@src/types/ClientExecutors";
 
 const interaction: Interaction = {
 	name: "verify button label",

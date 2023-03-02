@@ -10,7 +10,7 @@ class Config {
 	constructor() {
 		Config.rawConfig = require(Config.cfgPath);
 		Config.schema = objectSchemaFrom(AppConfig);
-		if(!validateObject(Config.config, Config.schema)) {
+		if(!validateObject(Config.rawConfig, Config.schema)) {
 			throw new Error("Invalid configuration!");
 		}
 		Config.config = Config.rawConfig;
@@ -23,12 +23,24 @@ class Config {
 	static getClientConfig<T extends keyof AppConfig["clients"]>(client: T): AppConfig["clients"][T] {
 		return Config.config.clients[client];
 	}
+	/**
+	 * Get the API configuration
+	 * @returns The API configuration
+	 */
 	static getApiConfig(): APIConfig {
 		return this.config.api;
 	}
+	/**
+	 * Get the database configuration
+	 * @returns The database configuration
+	 */
 	static getDatabaseConfig(): DatabaseConfig {
 		return this.config.database;
 	}
+	/**
+	 * Get the full configuration
+	 * @returns The full configuration
+	 */
 	static getFullConfig(): AppConfig {
 		return this.config;
 	}

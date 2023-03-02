@@ -1,6 +1,6 @@
 import { Message, EmbedBuilder } from "discord.js";
 import Bot from "@src/clients/Discord";
-import { Command } from "@src/types/Executors";
+import { Command } from "@src/types/ClientExecutors";
 
 const cmd: Command = {
 	name: "ping",

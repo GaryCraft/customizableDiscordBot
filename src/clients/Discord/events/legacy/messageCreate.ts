@@ -16,10 +16,8 @@ export default async (client: Bot, message: Message) => {
 	const command = client.commands.get(commandName);
 	if (!command) return;
 	try {
-
 		command.execute(client, message, args);
-
 	} catch (e) {
-		client.logger.error("", e);
+		client.logger.error(`${client.shard?.ids[0] ?? "Discord Client"}`, "", e);
 	}
 };

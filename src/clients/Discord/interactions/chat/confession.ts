@@ -1,7 +1,7 @@
-import { ApplicationCommandOptionType, ApplicationCommandType, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
+import { ApplicationCommandOptionType, ApplicationCommandType, ChannelType, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import Bot from "@src/clients/Discord";
 import GuildData from "@src/database/models/GuildData";
-import { Interaction } from "@src/types/Executors";
+import { Interaction } from "@src/types/ClientExecutors";
 const interaction: Interaction = {
 	name: "confession",
 	type: ApplicationCommandType.ChatInput,
@@ -46,7 +46,7 @@ const interaction: Interaction = {
 		});
 
 		const channel = interaction.guild?.channels.cache.get(guildData.confessionsId) || await interaction.guild?.channels.fetch(guildData.confessionsId);
-		if (!channel || !channel.isTextBased()) return interaction.reply({
+		if (!channel || !channel.isTextBased() || channel.type == ChannelType.GuildStageVoice) return interaction.reply({
 			embeds: [
 				new EmbedBuilder()
 					.setTitle("Confessions Channel is not configured in this server.")

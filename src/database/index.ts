@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm";
 import { DatabaseConfig } from "../types/Config";
-import { Log } from "../util/Logger";
+import { Log } from "../util/ClientLogger";
 class SPDatabase {
 	private logger!: Log.Logger;
 	private static instance: SPDatabase | null = null;
@@ -29,12 +29,12 @@ class SPDatabase {
 	}
 	async init() {
 		try{
-			this.logger.info("[SPDatabase] Persistent database initializing.");
+			this.logger.info("[SPDatabase]", "Persistent database initializing.");
 			await SPDatabase.source.initialize();
-			this.logger.info("[SPDatabase] Persistent database initialized.");
+			this.logger.info("[SPDatabase]", "Persistent database initialized.");
 		}
 		catch(e){
-			this.logger.error("[SPDatabase] Error initializing persistent database: " + e);
+			this.logger.error("[SPDatabase]", "Error initializing persistent database: ", e);
 			throw e;
 		}
 	}

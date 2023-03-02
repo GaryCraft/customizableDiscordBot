@@ -2,7 +2,7 @@ import { Message, EmbedBuilder, SelectMenuInteraction, TextChannel } from "disco
 import Bot from "@src/clients/Discord";
 import GuildMessageEmbed from "@src/database/models/MessageEmbed";
 import MessageEmbedField from "@src/database/models/MessageEmbedField";
-import { Interaction } from "@src/types/Executors";
+import { Interaction } from "@src/types/ClientExecutors";
 type tuple = [string, string];
 const interaction: Interaction = {
 	name: "embeds edit fields",

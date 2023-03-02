@@ -10,7 +10,7 @@ export namespace Log {
 		private static instance: Logger | null = null;
 		private logger!: winston.Logger;
 		constructor() {
-			if(Logger.instance) 
+			if (Logger.instance)
 				return Logger.instance;
 			this.logger = winston.createLogger({
 				level: process.env.NODE_ENV === "development" ? "debug" : "info",
@@ -27,31 +27,30 @@ export namespace Log {
 			});
 			Logger.instance = this;
 		}
-		log(level: LogLevel, message: string, ...args: any[]) {
-			this.logger.log(level, message, ...args);
+		log(source: string = "General", level: LogLevel, message: string, ...args: any[]) {
+			this.logger.log(level, `${source} ${message}`, ...args);
 		}
-		info(message: string, ...args: any[]) {
-			this.logger.info(message, ...args);
+		info(source: string = "General", message: string, ...args: any[]) {
+			this.logger.info(`${source} ${message}`, ...args);
 		}
-		warn(message: string, ...args: any[]) {
-			this.logger.warn(message, ...args);
+		warn(source: string = "General", message: string, ...args: any[]) {
+			this.logger.warn(`${source} ${message}`, ...args);
 		}
-		
-		error(error: Error): void;
-		error(message: string, ...args: any[]):void;
 
-		error(either: string | Error, ...args: any[]) {
-			if(typeof either === "string") {
-				this.logger.error(either, ...args);
+		error(source: string, error: Error): void;
+		error(source: string, message: string, ...args: any[]): void;
+		error(source: string = "General", either: string | Error, ...args: any[]) {
+			if (typeof either === "string") {
+				this.logger.error(`${source} ${either}`, ...args);
 			} else {
-				this.logger.error(either);
+				this.logger.error(`${source}`, either);
 			}
 		}
 
 		debug(object: any): void;
-		debug(message: string, ...args: any[]):void;
+		debug(message: string, ...args: any[]): void;
 		debug(arg0: string | any, ...args: any[]) {
-			if(typeof arg0 === "string") {
+			if (typeof arg0 === "string") {
 				this.logger.debug(arg0, ...args);
 			} else {
 				this.logger.debug(arg0);

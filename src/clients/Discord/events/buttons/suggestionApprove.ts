@@ -1,6 +1,6 @@
-import { ButtonInteraction, EmbedBuilder } from "discord.js";
+import { ButtonInteraction, ChannelType, EmbedBuilder } from "discord.js";
 import GuildSuggestion from "@src/database/models/GuildSuggestion";
-import { EventExecutor } from "@src/types/Executors";
+import { EventExecutor } from "@src/types/ClientExecutors";
 
 const e: EventExecutor<{ interaction: ButtonInteraction }> = async (client, params) => {
 	const { interaction } = params;
@@ -24,7 +24,7 @@ const e: EventExecutor<{ interaction: ButtonInteraction }> = async (client, para
 		})
 		.setColor(`#${client.config.defaultEmbedColor}`);
 	const channel = interaction.guild?.channels.cache.get(`${suggestion.config?.publicChannel}`);
-	if (!channel || !channel.isTextBased()) return interaction.reply({
+	if (!channel || !channel.isTextBased() || channel.type == ChannelType.GuildStageVoice) return interaction.reply({
 		embeds:[
 			new EmbedBuilder()
 				.setTitle("Channel not found")
