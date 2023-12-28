@@ -92,7 +92,7 @@ export const init = async () => {
 		"http:listen",
 		"cli:start",
 		"modules:init",
-		//"tasks:start",
+		"tasks:start",
 	]);
 	appCtx.events.emit("engine:ready");
 }
