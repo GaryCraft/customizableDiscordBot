@@ -2,8 +2,9 @@
 	"compilerOptions": {
 		"module": "NodeNext",
 		"esModuleInterop": true,
-		"target": "ES6",
-		"moduleResolution": "Node",
+		"allowSyntheticDefaultImports": true,
+		"target": "ESNext",
+		"moduleResolution": "NodeNext",
 		"removeComments": true,
 		"outDir": "./dist",
 		"emitDecoratorMetadata": true,
@@ -19,5 +20,5 @@
 	},
 	"include": [
 		"./src/**/*.ts"
-	],
+, "src/engine/utils/Logger.ts"	],
 }

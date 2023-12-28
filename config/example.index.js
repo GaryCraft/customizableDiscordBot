@@ -1,19 +1,11 @@
-// eslint-disable-next-line no-undef
+// @ts-check
+/** @typedef {import('../src/config/index.ts').default} DefinedConfig */
+/** @type {DefinedConfig} */
 module.exports = {
-	// The bot Token
-	token: "Discord Bot Token",
-	prefix: "custombot.",
-	// The bot Admins - Can use commands like `[prefix]stats`
-	admins: ["Discord ID", "Discord ID"],
-	activity: {
-		message: "Activity Name",
-		type: "PLAYING",
-	},
-	defaultEmbedColor: "0099ff",
 	// Database
 	database: {
 		// Either 'sqlite' or 'mysql'
-		type: "mysql",
+		type: "sqlite",
 		// Ingored if type is 'sqlite'
 		database: "database",
 		// MySQL Specific Settings
@@ -22,18 +14,18 @@ module.exports = {
 		user: "root",
 		password: "password",
 		// Other Settings
-		verbose: false,
-		sync: true,
+		sync: false,
+		logging: false,
 	},
-	// API
-	api: {
-		password: "API Password",
-		port: 8080,
+	// HTTP Server
+	http: {
+		port: 5000,
+		wsPort: 5001,
 	},
-	// Logging
-	logging: {
-		enabled: false,
-		channel: "Discord Channel ID",
-		level: "warning",
-	},
+	modules: {
+		discord: {
+			prefix: "!",
+			token: process.env.DISCORD_TOKEN,
+		}
+	}
 };
