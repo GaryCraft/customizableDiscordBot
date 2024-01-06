@@ -11,7 +11,7 @@ const mergeConfig = (config: DefGlobalConfig): GlobalConfig => {
 	const inherentConfig = new InherentConfig();
 	const mergedConfig = Object.assign(inherentConfig, config);
 	return mergedConfig;
-}
+};
 
 const loadConfig = (): Result<GlobalConfig, Error> => {
 	const path = getProcessPath();
@@ -57,4 +57,4 @@ export const getConfigProperty = <T>(cfgPath: string): T | null => {
 		current = current[key];
 	}
 	return current;
-}
+};

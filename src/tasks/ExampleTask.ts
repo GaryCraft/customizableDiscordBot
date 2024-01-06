@@ -6,6 +6,6 @@ export default {
 	name: "ExampleJob",
 	cronInterval: "* * * * *",
 	async task(app) {
-		info("ExampleJob ran!")
+		info("ExampleJob ran!");
 	},
 } satisfies ScheduledTask;

@@ -18,7 +18,7 @@ const getLogTypesAsLevels = () => {
 		i++;
 	}
 	return copy as { [key: string]: number };
-}
+};
 
 const getColor = (type: LogType) => {
 	switch (type) {

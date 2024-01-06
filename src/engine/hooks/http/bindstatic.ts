@@ -13,7 +13,7 @@ export default function(appCtx: ApplicationContext) {
 		res.status(404).send("Not found.");
 	});
 	appCtx.http.server.get("*", (_req, res) => {
-		res.redirect("/")
+		res.redirect("/");
 	});
 	info("Registered static file handlers");
 }

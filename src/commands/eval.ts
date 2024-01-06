@@ -18,7 +18,7 @@ export default {
 		try {
 			const context ={
 				app
-			}
+			};
 			// Eval the code passing in the context
 			const res = eval(code);
 			debug("Result: ", res);

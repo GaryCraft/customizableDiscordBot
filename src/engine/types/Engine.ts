@@ -1,5 +1,5 @@
 import EventEmitter2 from "eventemitter2";
-import CLI from "../cli"
+import CLI from "../cli";
 import { HttpHandler } from "../http";
 import { GlobalConfig } from "../utils/Configuration";
 import { DataSource } from "typeorm";

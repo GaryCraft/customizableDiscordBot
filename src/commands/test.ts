@@ -37,7 +37,7 @@ export default {
 				break;
 			}
 			case "database": {
-				const db = getDatabase()
+				const db = getDatabase();
 				const allRepos = db.entityMetadatas.map((x) => x.name);
 				debug("All repositories: ", allRepos);
 				// Make the database do something

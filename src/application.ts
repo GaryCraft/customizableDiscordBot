@@ -95,6 +95,6 @@ export const init = async () => {
 		"tasks:start",
 	]);
 	appCtx.events.emit("engine:ready");
-}
+};
 
 export default appCtx;

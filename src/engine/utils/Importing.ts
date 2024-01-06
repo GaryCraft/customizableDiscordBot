@@ -4,7 +4,7 @@ type Loader<T> = (imported: T, file: string, dir: string) => void;
 // Import, Validate and use loader
 export async function useImporter<T>(file: string, dir: string, validator: Validator<T>, loader: Loader<T>) {
 	const imported = (await import(`${dir}/${file}`)).default;
-	const validated = validator(imported, file, dir)
+	const validated = validator(imported, file, dir);
 	if (!validated) {
 		return null;
 	}

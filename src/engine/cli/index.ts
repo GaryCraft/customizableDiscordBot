@@ -27,7 +27,7 @@ export default class CLI {
 				return;
 			}
 			
-				const c = this.commands.get(command)
+				const c = this.commands.get(command);
 				if (!c) {
 					info("Command not found");
 					return;
