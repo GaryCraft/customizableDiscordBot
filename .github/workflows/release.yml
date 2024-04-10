@@ -16,6 +16,9 @@ jobs:
           find src/modules -mindepth 1 -maxdepth 1 -type d -not -name discord -exec rm -rf {} \;
           find src/config/modules -type f -not -name 'index.ts' -not -name 'discord.ts' -delete
           find src -type f -exec sed -i '/\/\/\$StripStart/,/\/\/\$StripEnd/d' {} \;
+      - name: Remove release branch
+        run: |
+          git push origin --delete release
       ## Commit Changes to release
       - name: Commit Changes
         run: |
