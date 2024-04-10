@@ -1,5 +1,7 @@
 import { Parseable, ValidateProperty } from "parzival";
 import DiscordConfig from "./discord";
+//$StripStart
+//$StripEnd
 
 @Parseable()
 export default class ModuleConfigs {
@@ -9,4 +11,6 @@ export default class ModuleConfigs {
 		className: "DiscordConfig",
 	})
 	discord!: DiscordConfig;
+	//$StripStart
+	//$StripEnd
 }

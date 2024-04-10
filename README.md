@@ -1,4 +1,4 @@
-<!-- This is the README for an Open Source NodeJS Event-Based Application Engine [UtilityDust]-->
+
 # UtilityDust
 
 ## What is UtilityDust?
@@ -13,12 +13,12 @@ So the main template remains clean and without bloat.
 
 # Modules
 
-## Included Modules
+## Included Modules in main branch
 
 - [x] Discord Client
 - [ ] Automatic bindings for TypeScript (WIP)
 
-## Planned Modules
+## Planned Modules, eventually available in the dev branch
 
 - [ ] WhatsApp Client
 - [ ] Mattermost Client
@@ -30,6 +30,7 @@ So the main template remains clean and without bloat.
 
 but you can also create your own modules, and publish them to npm
 we'll try to mantain the name format as `udm-<name>`
+and have a quick way to install them.
 
 # Default Configuration
 

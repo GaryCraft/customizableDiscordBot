@@ -1,0 +1,26 @@
+## On push, if a tag is pushed, this workflow will build and release the package to npm.
+on:
+  push:
+    branches:
+      - dev
+jobs:
+  strip-modules:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Remove UDM Modules
+        ## Delete all src/modules folders excepting discord
+        ## Also Delete all the src/config/modules files, excepting index.ts and discord.ts
+        ## And delete all text between //$StripStart to //$StripEnd comments
+        run: |
+          find src/modules -mindepth 1 -maxdepth 1 -type d -not -name discord -exec rm -rf {} \;
+          find src/config/modules -type f -not -name 'index.ts' -not -name 'discord.ts' -delete
+          find src -type f -exec sed -i '/\/\/\$StripStart/,/\/\/\$StripEnd/d' {} \;
+      ## Commit Changes to main
+      - name: Commit Changes
+        run: |
+          git config --local user.email "githubactions@our-space.xyz"
+          git config --local user.name "GitHub Actions"
+          git add .
+          git commit -m "Stripped Modules"
+          git push origin main
