@@ -17,11 +17,11 @@ jobs:
           find src/modules -mindepth 1 -maxdepth 1 -type d -not -name discord -exec rm -rf {} \;
           find src/config/modules -type f -not -name 'index.ts' -not -name 'discord.ts' -delete
           find src -type f -exec sed -i '/\/\/\$StripStart/,/\/\/\$StripEnd/d' {} \;
-      ## Commit Changes to main
+      ## Commit Changes to release
       - name: Commit Changes
         run: |
           git config --local user.email "githubactions@our-space.xyz"
           git config --local user.name "GitHub Actions"
           git add .
           git commit -m "Stripped Modules"
-          git push origin dev:main
+          git push origin dev:release
