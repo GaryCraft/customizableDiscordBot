@@ -1,8 +1,7 @@
-## On push, if a tag is pushed, this workflow will build and release the package to npm.
 on:
   push:
     branches:
-      - dev
+      - main
 jobs:
   strip-modules:
     name: Strip Modules and Commit Changes
