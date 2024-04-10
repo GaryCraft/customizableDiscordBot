@@ -13,12 +13,12 @@ So the main template remains clean and without bloat.
 
 # Modules
 
-## Included Modules in main branch
+## Included Modules in release branch
 
 - [x] Discord Client
 - [ ] Automatic bindings for TypeScript (WIP)
 
-## Planned Modules, eventually available in the dev branch
+## Planned Modules, eventually available in the main branch
 
 - [ ] WhatsApp Client
 - [ ] Mattermost Client
@@ -28,7 +28,7 @@ So the main template remains clean and without bloat.
 - [ ] Service Polling Module
 - [ ] Orizuru Module
 
-but you can also create your own modules, and publish them to npm
+but you can also create your own modules, and publish them to npm.
 we'll try to mantain the name format as `udm-<name>`
 and have a quick way to install them.
 
