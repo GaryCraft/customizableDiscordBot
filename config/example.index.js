@@ -25,6 +25,15 @@ module.exports = {
 		discord: {
 			prefix: "!",
 			token: process.env.DISCORD_TOKEN,
+			activity: {
+				type: "PLAYING",
+				name: "UtilityDust development",
+			}
+		},
+		//$StripStart
+		i18n: {
+			baseLanguage: "en",
 		}
+		//$StripEnd
 	}
 };

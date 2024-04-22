@@ -24,9 +24,9 @@ So the main template remains clean and without bloat.
 - [ ] Mattermost Client
 - [ ] OCR Module
 - [ ] Twitch Module
-- [ ] Discord-Music Module
 - [ ] Service Polling Module
 - [ ] Orizuru Module
+- [x] i18n Module (internal)
 
 but you can also create your own modules, and publish them to npm.
 we'll try to mantain the name format as `udm-<name>`

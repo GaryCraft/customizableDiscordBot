@@ -47,6 +47,8 @@
 		"discord.js": "^14.14.1",
 		"eventemitter2": "^6.4.9",
 		"express": "^4.18.2",
+		"i18next": "^23.11.2",
+		"i18next-fs-backend": "^2.3.1",
 		"mysql2": "^3.6.5",
 		"node-schedule": "^2.1.1",
 		"parzival": "^0.5.7",
