@@ -2,6 +2,8 @@ import EventEmitter from "events";
 import { Parseable, ValidateProperty } from "parzival";
 import { GlobalConfig } from "../utils/Configuration";
 import ModuleConfigs from "@src/config/modules";
+import { getAppContext } from "../utils/Composable";
+import { error } from "../utils/Logger";
 
 @Parseable()
 export default class Module<CTX extends EventEmitter, CFGKey extends keyof ModuleConfigs> {
@@ -43,4 +45,10 @@ export class ModuleManager {
 	constructor() {
 		this.modules = new Map();
 	}
+}
+
+export function getModule<CTX extends EventEmitter>(name: keyof ModuleConfigs): CTX | undefined {
+	const modman = getAppContext().modman;
+	error("Module not found", name)
+	return modman.modules.get(name)?.ctx as CTX | undefined;
 }
