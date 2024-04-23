@@ -49,6 +49,10 @@ export class ModuleManager {
 
 export function getModule<CTX extends EventEmitter>(name: keyof ModuleConfigs): CTX | undefined {
 	const modman = getAppContext().modman;
-	error("Module not found", name)
-	return modman.modules.get(name)?.ctx as CTX | undefined;
+	const mod = modman.modules.get(name);
+	if (!mod) {
+		error("Module not found", name)
+		return undefined;
+	}
+	return mod.ctx as CTX;
 }
