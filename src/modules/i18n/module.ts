@@ -1,5 +1,5 @@
 import I18nConfig from "@src/config/modules/i18n";
-import Module from "@src/engine/modules";
+import Module, { getModule } from "@src/engine/modules";
 import { getAppContext } from "@src/engine/utils/Composable";
 import { debug, warn } from "@src/engine/utils/Logger";
 import { getProcessPath } from "@src/engine/utils/Runtime";
@@ -57,7 +57,7 @@ export class I18nModule extends EventEmitter {
 }
 
 export function tt(key: string, lang: string, opts?: any) {
-	const module = getAppContext().modman.modules.get("i18n") as I18nModule | undefined
+	const module = getModule<I18nModule>("i18n")
 
 	if (!module) {
 		warn("i18n module not found")
@@ -68,7 +68,7 @@ export function tt(key: string, lang: string, opts?: any) {
 }
 
 export function t(key: string, opts?: any) {
-	const module = getAppContext().modman.modules.get("i18n") as I18nModule | undefined
+	const module = getModule<I18nModule>("i18n")
 
 	if (!module) {
 		warn("i18n module not found")
