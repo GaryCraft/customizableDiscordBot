@@ -34,6 +34,8 @@ export class I18nModule extends EventEmitter {
 		await this.i18n
 			.use(Backend)
 			.init<FsBackendOptions>({
+				saveMissing: true,
+				saveMissingPlurals: true,
 				fallbackLng: config.baseLanguage,
 				ns: ["default"],
 				defaultNS: "default",
