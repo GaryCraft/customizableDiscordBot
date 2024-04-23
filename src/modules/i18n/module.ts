@@ -4,6 +4,7 @@ import { getAppContext } from "@src/engine/utils/Composable";
 import { debug, warn } from "@src/engine/utils/Logger";
 import { getProcessPath } from "@src/engine/utils/Runtime";
 import { EventEmitter } from "events";
+import { readdir } from "fs/promises";
 import i18next, { i18n, TFunction } from "i18next";
 import Backend, { FsBackendOptions } from 'i18next-fs-backend';
 import path from "path";
@@ -31,13 +32,20 @@ export class I18nModule extends EventEmitter {
 		}
 	}
 	async initialize(config: I18nConfig) {
+		const langs = await readdir(path.join(getProcessPath(), "/lang"))
+		const namespaces = await Promise.all(langs.map(async lang => {
+			const ns = await readdir(path.join(getProcessPath(), `/lang/${lang}`))
+			return ns.map(n => n.split(".")[0])
+		}))
+		const allNamespaces = Array.from(new Set(namespaces.flat()))
+
 		await this.i18n
 			.use(Backend)
 			.init<FsBackendOptions>({
 				saveMissing: true,
 				saveMissingPlurals: true,
 				fallbackLng: config.baseLanguage,
-				ns: ["default"],
+				ns: allNamespaces,
 				defaultNS: "default",
 				backend: {
 					loadPath: path.join(getProcessPath(), "/lang/{{lng}}/{{ns}}.json"),
