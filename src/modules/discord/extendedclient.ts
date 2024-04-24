@@ -1,7 +1,7 @@
 import { useImporterRecursive } from "@src/engine/utils/Importing";
 import { warn } from "@src/engine/utils/Logger";
 import { getModulePath } from "@src/engine/utils/Runtime";
-import { ChatInputCommandInteraction, Client, ClientOptions, Interaction, Message } from "discord.js";
+import { ApplicationCommandOptionData, ChatInputCommandInteraction, Client, ClientOptions, Interaction, Message, MessageContextMenuCommandInteraction, MessageInteraction, UserContextMenuCommandInteraction, UserSelectMenuInteraction } from "discord.js";
 import { Parseable, ValidateProperty, objectSchemaFrom, validateObject } from "parzival";
 
 @Parseable()
@@ -23,7 +23,7 @@ export class DSCommand {
 }
 
 @Parseable()
-export class DSInteraction<T extends Interaction> {
+export class BaseDSInteraction<T extends Interaction> {
 	@ValidateProperty({
 		type: "string"
 	})
@@ -32,6 +32,24 @@ export class DSInteraction<T extends Interaction> {
 		type: "string"
 	})
 	description!: string;
+
+	@ValidateProperty({
+		type: "string"
+	})
+	type!: "chat" | "user" | "message";
+
+	@ValidateProperty({
+		type: "string",
+		optional: true
+	})
+	registerTo!: "app" | "guild";
+
+	@ValidateProperty({
+		type: "string",
+		optional: true
+	})
+	options?: ApplicationCommandOptionData[];
+
 	@ValidateProperty({
 		type: "function",
 		validateArguments: false,
@@ -43,9 +61,32 @@ export class DSInteraction<T extends Interaction> {
 	) => void;
 }
 
+type ChatDSInteraction = BaseDSInteraction<ChatInputCommandInteraction> & {
+	type: "chat";
+	options?: ApplicationCommandOptionData[];
+}
+
+type UserDSInteraction = BaseDSInteraction<UserContextMenuCommandInteraction> & {
+	type: "user";
+}
+
+type MessageDSInteraction = BaseDSInteraction<MessageContextMenuCommandInteraction> & {
+	type: "message";
+}
+
+type AnyDSInteraction = ChatDSInteraction | UserDSInteraction | MessageDSInteraction;
+
+type AutoDSInteraction<T extends AnyDSInteraction['type']> =
+	T extends "chat" ? ChatDSInteraction :
+	T extends "user" ? UserDSInteraction :
+	T extends "message" ? MessageDSInteraction :
+	AnyDSInteraction;
+
+export type DSInteraction = AutoDSInteraction<AnyDSInteraction['type']>;
+
 export default class ExtendedClient extends Client {
 	commands: Map<string, DSCommand>;
-	interactions: Map<string, DSInteraction<Interaction>>;
+	interactions: Map<string, DSInteraction>;
 	constructor(opts: ClientOptions) {
 		super(opts);
 		this.commands = new Map();
@@ -66,9 +107,9 @@ export default class ExtendedClient extends Client {
 			async (i, f, d) => {
 				this.commands.set(i.default.name, i.default);
 			});
-		const interactionSchema = objectSchemaFrom(DSInteraction);
+		const interactionSchema = objectSchemaFrom(BaseDSInteraction);
 		useImporterRecursive(`${getModulePath("discord")}/interactions`,
-			function validator(i: any, f, d): i is { default: DSInteraction<Interaction> } {
+			function validator(i: any, f, d): i is { default: DSInteraction } {
 				if (!i?.default) {
 					warn(`Interaction ${f} from ${d} has no default export`);
 					return false;
