@@ -1,5 +1,5 @@
 import { Parseable, ValidateProperty } from "parzival";
-import { Response } from "express";
+import { Response, Request } from "express";
 import { ApplicationContext } from "./Engine";
 import SocketIO from "socket.io";
 
@@ -54,41 +54,46 @@ export class HTTPRouteHandler {
 	@ValidateProperty({
 		type: "function",
 		validateArguments: false,
-		validateReturns: false
+		validateReturns: false,
+		optional: true
 	})
-	get(req: Express.Request, res: Response): Promise<void> {
+	get?(req: Request, res: Response): Promise<void> {
 		throw new Error("Method not implemented.");
 	}
 	@ValidateProperty({
 		type: "function",
 		validateArguments: false,
-		validateReturns: false
+		validateReturns: false,
+		optional: true
 	})
-	post(req: Express.Request, res: Response): Promise<void> {
+	post?(req: Request, res: Response): Promise<void> {
 		throw new Error("Method not implemented.");
 	}
 	@ValidateProperty({
 		type: "function",
 		validateArguments: false,
-		validateReturns: false
+		validateReturns: false,
+		optional: true
 	})
-	put(req: Express.Request, res: Response): Promise<void> {
+	put?(req: Request, res: Response): Promise<void> {
 		throw new Error("Method not implemented.");
 	}
 	@ValidateProperty({
 		type: "function",
 		validateArguments: false,
-		validateReturns: false
+		validateReturns: false,
+		optional: true
 	})
-	delete(req: Express.Request, res: Response): Promise<void> {
+	delete?(req: Express.Request, res: Response): Promise<void> {
 		throw new Error("Method not implemented.");
 	}
 	@ValidateProperty({
 		type: "function",
 		validateArguments: false,
-		validateReturns: false
+		validateReturns: false,
+		optional: true
 	})
-	patch(req: Express.Request, res: Response): Promise<void> {
+	patch?(req: Request, res: Response): Promise<void> {
 		throw new Error("Method not implemented.");
 	}
 }
