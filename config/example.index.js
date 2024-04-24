@@ -28,12 +28,14 @@ module.exports = {
 			activity: {
 				type: "PLAYING",
 				name: "UtilityDust development",
-			}
+			},
+			admins: [],
+			defaultEmbedColor: "FFFFFF",
 		},
 		//$StripStart
 		i18n: {
 			baseLanguage: "en",
-		}
+		},
 		//$StripEnd
-	}
+	},
 };

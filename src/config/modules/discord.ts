@@ -33,4 +33,17 @@ export default class DiscordConfig {
 		className: "ActivityConfig",
 	})
 	activity!: ActivityConfig;
+
+	@ValidateProperty({
+		type: "array",
+		subTypeOptions: {
+			type: "string",
+		},
+	})
+	admins!: string[];
+
+	@ValidateProperty({
+		type: "string",
+	})
+	defaultEmbedColor!: string;
 }
