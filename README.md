@@ -42,6 +42,10 @@ As it ships default with the discord client module, and the HTTP server configur
 In the future there will be a way better documentation, but for now, you can browse the source code, and see how it works.
 Specially the discord client module, as it is the most normalized as to how the application expects to be used.
 
+## Docs
+
+UtilityDust supports many environment variables to customize its behavior, so you can check the [Environment Variables](docs/env_variables.md) for more information.
+
 ## Making a module
 
 The only thing you need to do to make a module, is to create a folder within the `modules` directory, and create an `index` file in it.

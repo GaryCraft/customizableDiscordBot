@@ -2,10 +2,22 @@ import { objectSchemaFrom, validateObject } from "parzival";
 import { getProcessPath } from "@src/engine/utils/Runtime";
 import DefGlobalConfig from "@src/config";
 import { Result } from "@src/engine/utils/ActualUtils";
-import { debug, warn } from "./Logger";
-import { InherentConfig } from "./Env";
+import { debug, error, warn } from "./Logger";
+import { InherentConfig, defaultcfgpath } from "./Env";
+import { isSecure } from "./Permissions";
 export type GlobalConfig = DefGlobalConfig & InherentConfig;
 let cachedConfig: GlobalConfig | null = null;
+
+const getBaseConfigPath = (): string => {
+	if (InherentConfig.node_env === "development") {
+		return defaultcfgpath;
+	}
+	if (!isSecure(InherentConfig.cfg_path) && !InherentConfig.cfg_path_secure) {
+		error("Configuration file is not secure. Defaulting to base configuration path.");
+		return defaultcfgpath;
+	}
+	return InherentConfig.cfg_path;
+}
 
 const mergeConfig = (config: DefGlobalConfig): GlobalConfig => {
 	const inherentConfig = new InherentConfig();
@@ -14,8 +26,8 @@ const mergeConfig = (config: DefGlobalConfig): GlobalConfig => {
 };
 
 const loadConfig = (): Result<GlobalConfig, Error> => {
-	const path = getProcessPath();
-	const configObject = require(`${path}/config`);
+	const path = getBaseConfigPath();
+	const configObject = require(`${path}`);
 	debug("Loaded configuration file.", configObject);
 	const schema = objectSchemaFrom(DefGlobalConfig);
 	const isValid = validateObject(configObject, schema);
