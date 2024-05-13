@@ -8,7 +8,7 @@ export const defaultcfgpath = `${getProcessPath()}/config`;
 
 export class InherentConfig {
 	private singleton: InherentConfig | null = null;
-	node_env = process.env.NODE_ENV || "development";
+	node_env = process.env.UD_ENV || "production";
 	cfg_path = process.env.UD_CONFIG_PATH || defaultcfgpath;
 	allow_insecure_config = process.env.UD_ALLOW_INSECURE_CONFIG === "true" || false;
 	constructor() {

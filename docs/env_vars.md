@@ -3,7 +3,7 @@
 UtilityDust supports many environment variables to customize its behavior. The following is a list of all the environment variables that UtilityDust supports:
 
 ## General
-- `NODE_ENV`: The environment in which the application is running. Can be `development` or `production`. If not set, UtilityDust will default to `production`.
+- `UD_ENV`: The environment in which the application is running. Can be `development` or `production`. If not set, UtilityDust will default to `production`.
 
 ## Configuration
 - `UD_CONFIG_PATH`: The path to the configuration directory. If not set, UtilityDust will use the default configuration directory. Which is `config` in the working directory.
