@@ -44,7 +44,7 @@ Specially the discord client module, as it is the most normalized as to how the 
 
 ## Docs
 
-UtilityDust supports many environment variables to customize its behavior, so you can check the [Environment Variables](docs/env_variables.md) for more information.
+UtilityDust supports many environment variables to customize its behavior, so you can check the [Environment Variables](docs/env_vars.md) for more information.
 
 ## Making a module
 
