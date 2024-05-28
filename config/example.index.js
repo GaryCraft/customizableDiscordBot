@@ -6,7 +6,7 @@ module.exports = {
 	database: {
 		// Either 'sqlite' or 'mysql'
 		type: "sqlite",
-		// Ingored if type is 'sqlite'
+		// Ignored if type is 'sqlite'
 		database: "database",
 		// MySQL Specific Settings
 		host: "localhost",
