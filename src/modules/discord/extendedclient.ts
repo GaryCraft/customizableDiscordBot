@@ -1,7 +1,7 @@
 import { useImporterRecursive } from "@src/engine/utils/Importing";
 import { warn } from "@src/engine/utils/Logger";
 import { getModulePath } from "@src/engine/utils/Runtime";
-import { ApplicationCommandOptionData, ChatInputCommandInteraction, Client, ClientOptions, Interaction, Message, MessageContextMenuCommandInteraction, MessageInteraction, UserContextMenuCommandInteraction, UserSelectMenuInteraction } from "discord.js";
+import { ApplicationCommandOptionData, ChatInputCommandInteraction, Client, ClientOptions, Interaction, Message, MessageContextMenuCommandInteraction, MessageInteraction, ModalSubmitInteraction, UserContextMenuCommandInteraction, UserSelectMenuInteraction } from "discord.js";
 import { Parseable, ValidateProperty, objectSchemaFrom, validateObject } from "parzival";
 
 @Parseable()
@@ -36,7 +36,7 @@ export class BaseDSInteraction<T extends Interaction> {
 	@ValidateProperty({
 		type: "string"
 	})
-	type!: "chat" | "user" | "message";
+	type!: "chat" | "user" | "message" | "modal";
 
 	@ValidateProperty({
 		type: "string",
@@ -44,10 +44,13 @@ export class BaseDSInteraction<T extends Interaction> {
 	})
 	registerTo!: "app" | "guild";
 
-	@ValidateProperty({
-		type: "string",
+	/* @ValidateProperty({
+		type: "array",
+		subTypeOptions: {
+			type: "string"
+		},
 		optional: true
-	})
+	}) */ // TODO: Fix this
 	options?: ApplicationCommandOptionData[];
 
 	@ValidateProperty({
@@ -74,12 +77,19 @@ type MessageDSInteraction = BaseDSInteraction<MessageContextMenuCommandInteracti
 	type: "message";
 }
 
-type AnyDSInteraction = ChatDSInteraction | UserDSInteraction | MessageDSInteraction;
+type ModalDSInteraction = BaseDSInteraction<ModalSubmitInteraction> & {
+	type: "modal";
+	registerTo: "app";
+	description: "";
+}
+
+type AnyDSInteraction = ChatDSInteraction | UserDSInteraction | MessageDSInteraction | ModalDSInteraction;
 
 type AutoDSInteraction<T extends AnyDSInteraction['type']> =
 	T extends "chat" ? ChatDSInteraction :
 	T extends "user" ? UserDSInteraction :
 	T extends "message" ? MessageDSInteraction :
+	T extends "modal" ? ModalDSInteraction :
 	AnyDSInteraction;
 
 export type DSInteraction = AutoDSInteraction<AnyDSInteraction['type']>;
