@@ -27,7 +27,10 @@ const privilegedIntents = [
 
 export default {
 	name: "discord",
-	hooksInnerPath: "hooks",
+	paths: {
+		hooks: "hooks",
+		commands: "cli",
+	},
 	loadFunction: async (config) => {
 		let intents: GatewayIntentBits[] = [];
 		if (getConfigValue("node_env") === "development") {

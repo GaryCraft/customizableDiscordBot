@@ -11,6 +11,9 @@ This engine is open source and is licensed under the [MIT License](https://opens
 As Features are needed, they will be separated into modules, that can be easily installed.
 So the main template remains clean and without bloat.
 
+> [!WARNING]
+> This project is still in early development, and while production use is viable, stuff mill most certainly break with future updates, until its API is deemed stable.
+
 # Modules
 
 ## Included Modules in release branch

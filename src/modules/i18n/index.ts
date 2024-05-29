@@ -5,7 +5,9 @@ import { I18nModule } from "./module";
 
 export default {
 	name: "i18n",
-	hooksInnerPath: "hooks",
+	paths: {
+		hooks: "hooks",
+	},
 	loadFunction: async (config) => {
 		return new I18nModule()
 	},

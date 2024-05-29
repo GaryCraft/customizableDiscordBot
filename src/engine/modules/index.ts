@@ -6,6 +6,33 @@ import { getAppContext } from "../utils/Composable";
 import { error } from "../utils/Logger";
 
 @Parseable()
+class ModulePaths {
+	@ValidateProperty({
+		type: "string",
+		optional: true,
+	})
+	hooks?: string;
+
+	@ValidateProperty({
+		type: "string",
+		optional: true,
+	})
+	commands?: string;
+
+	@ValidateProperty({
+		type: "string",
+		optional: true,
+	})
+	tasks?: string;
+
+	@ValidateProperty({
+		type: "string",
+		optional: true,
+	})
+	routes?: string;
+}
+
+@Parseable()
 export default class Module<CTX extends EventEmitter, CFGKey extends keyof ModuleConfigs> {
 	@ValidateProperty({
 		type: "string",
@@ -13,9 +40,12 @@ export default class Module<CTX extends EventEmitter, CFGKey extends keyof Modul
 	name!: CFGKey;
 
 	@ValidateProperty({
-		type: "string",
+		type: "object",
+		recurse: true,
+		className: "ModulePaths",
+		optional: true,
 	})
-	hooksInnerPath!: string;
+	paths?: ModulePaths;
 
 	@ValidateProperty({
 		type: "function",

@@ -41,6 +41,7 @@
 		"typescript": "^5.4.5"
 	},
 	"dependencies": {
+		"@garycraft/orizuru": "^0.2.2",
 		"@spaceproject/findrecursive": "^1.0.4",
 		"chalk": "^4.1.2",
 		"cookie-parser": "^1.4.6",
@@ -51,8 +52,9 @@
 		"i18next-fs-backend": "^2.3.1",
 		"mysql2": "^3.6.5",
 		"node-schedule": "^2.1.1",
-		"parzival": "^0.5.7",
+		"parzival": "^0.6.2",
 		"reflect-metadata": "^0.2.1",
+		"simple-git": "^3.24.0",
 		"socket.io": "^4.6.1",
 		"typeorm": "^0.3.17",
 		"uuid": "^9.0.1",

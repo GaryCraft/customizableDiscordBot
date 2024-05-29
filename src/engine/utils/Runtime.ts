@@ -82,6 +82,10 @@ export const getModulePath = (module: string) => {
 	return path.join(getRootPath(), '/modules', module);
 };
 
+export const getTempPath = () => {
+	return path.join(getProcessPath(), '/temp');
+}
+
 // Execution
 
 export const isWindows = () => {
