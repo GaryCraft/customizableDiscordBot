@@ -36,6 +36,14 @@ module.exports = {
 		i18n: {
 			baseLanguage: "en",
 		},
+		orizuru: {
+			serverName: "Orizuru",
+		},
+		web_from_git: {
+			gitRepo: "",
+			gitSecret: "",
+			gitUser: "",
+		},
 		//$StripEnd
 	},
 };
