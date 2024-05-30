@@ -40,6 +40,7 @@ module.exports = {
 			serverName: "Orizuru",
 		},
 		web_from_git: {
+			enabled: false,
 			gitRepo: "",
 			gitSecret: "",
 			gitUser: "",

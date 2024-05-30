@@ -27,6 +27,9 @@ export default {
 			error("No config found for web_from_git");
 			return;
 		}
+		if (!cfg.enabled) {
+			return;
+		}
 		/* if (app.config.node_env !== "production") {
 			debug("Not building site in development mode");
 			return;

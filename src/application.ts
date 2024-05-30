@@ -90,9 +90,9 @@ export const init = async () => {
 		"tasks:loadtasks",
 		"modules:load",
 		"database:connect",
-		"http:listen",
-		"cli:start",
 		"modules:init",
+		"cli:start",
+		"http:listen",
 		"tasks:start",
 	]);
 	appCtx.events.emit("engine:ready");
