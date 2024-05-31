@@ -34,6 +34,7 @@ export default async function updateInteractions(client: ExtendedClient, params:
 	if (!guild) {
 		const arr: ApplicationCommandDataResolvable[] = [];
 		for await (const [, interaction] of client.interactions.entries()) {
+			if (interaction.type == "modal") continue;
 			if (interaction.registerTo == "app") arr.push(fromInteraction(interaction));
 		}
 		client.application?.commands.set(arr).catch((e) => {
@@ -44,6 +45,7 @@ export default async function updateInteractions(client: ExtendedClient, params:
 	}
 	const arr: ApplicationCommandDataResolvable[] = [];
 	for await (const [, interaction] of client.interactions.entries()) {
+		if (interaction.type == "modal") continue;
 		if (interaction.registerTo == "guild") arr.push(fromInteraction(interaction));
 	}
 	await guild.commands.set(arr).catch((e) => {
