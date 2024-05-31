@@ -49,20 +49,9 @@ Specially the discord client module, as it is the most normalized as to how the 
 
 UtilityDust supports many environment variables to customize its behavior, so you can check the [Environment Variables](docs/env_vars.md) for more information.
 
-## Making a module
+## Modules
 
-The only thing you need to do to make a module, is to create a folder within the `modules` directory, and create an `index` file in it.
-UtilityDust will automatically load it, expecting it to satisfy the Module type, with a respective configuration key, and eventEmitter class.
-
-As so it only expects a name, a "hooksInnerPath", load and init functions, and a eventEmitter class.
-Where
-
-- the name is a unique string name
-- the hooksInnerPath is a string that references the path to the hooks folder, relative to the module folder
-- the load function is an async function that receives the configuration, and should return the EventEmitter inheritor instance
-- the init function is an async function that receives the context, and should return nothing
-
-Apart from that you can make any folder or file in the module folder, and it will be used only if needed.
+We now have a the [Modules](docs/modules.md) documentation, a little bit more detailed on how to use the module system and how to create one.
 
 ## Hooks
 
