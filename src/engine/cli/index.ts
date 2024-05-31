@@ -15,7 +15,7 @@ export default class CLI {
 		this.interface = readline.createInterface({
 			input: this.input,
 			output: this.output,
-			prompt: "> "
+			prompt: ""
 		});
 	}
 	async init() {
