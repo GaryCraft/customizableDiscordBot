@@ -1,9 +1,13 @@
 import EventEmitter from "events";
 import { Parseable, ValidateProperty } from "parzival";
 import { GlobalConfig } from "../utils/Configuration";
-import ModuleConfigs from "@src/config/modules";
 import { getAppContext } from "../utils/Composable";
 import { error } from "../utils/Logger";
+import ModuleConfigs from "@src/config/modules";
+
+export type XModuleConfigs = GlobalConfig["modules"] & {
+	none: undefined;
+};
 
 @Parseable()
 class ModulePaths {
@@ -32,12 +36,14 @@ class ModulePaths {
 	routes?: string;
 }
 
+export type ModuleCfgKey = keyof XModuleConfigs
+
 @Parseable()
-export default class Module<CTX extends EventEmitter, CFGKey extends keyof ModuleConfigs> {
+export default class Module<CTX extends EventEmitter, CFGKey extends ModuleCfgKey = "none"> {
 	@ValidateProperty({
 		type: "string",
 	})
-	name!: CFGKey;
+	name!: string;
 
 	@ValidateProperty({
 		type: "object",
@@ -53,7 +59,7 @@ export default class Module<CTX extends EventEmitter, CFGKey extends keyof Modul
 		validateReturns: false,
 	})
 	loadFunction!: (
-		config: GlobalConfig["modules"][CFGKey]
+		config: CFGKey extends "none" ? undefined : XModuleConfigs[CFGKey]
 	) => Promise<CTX>;
 
 	@ValidateProperty({
@@ -63,7 +69,7 @@ export default class Module<CTX extends EventEmitter, CFGKey extends keyof Modul
 	})
 	initFunction!: (
 		ctx: CTX,
-		config: GlobalConfig["modules"][CFGKey]
+		config: CFGKey extends "none" ? undefined : XModuleConfigs[CFGKey]
 	) => Promise<void>;
 }
 

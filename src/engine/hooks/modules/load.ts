@@ -1,5 +1,5 @@
 import fs from "fs";
-import Module from "@src/engine/modules";
+import Module, { ModuleCfgKey, XModuleConfigs } from "@src/engine/modules";
 import { ApplicationContext } from "@src/engine/types/Engine";
 import { debug, info, warn } from "@src/engine/utils/Logger";
 import { getRootPath, isRunningAsCompiled } from "@src/engine/utils/Runtime";
@@ -23,8 +23,8 @@ export default async function (appCtx: ApplicationContext) {
 			if (!validateObject<Module<EventEmitter, keyof ModuleConfigs>>(def, moduleSchema)) {
 				throw new Error(`Module ${fsdir} is invalid`);
 			}
-			const config = getConfigProperty(`modules.${fsdir}`);
-			const moduleLoaded = await def.loadFunction(config as ModuleConfigs[keyof ModuleConfigs]);
+			const config = getConfigProperty(`modules.${fsdir}`) as XModuleConfigs[ModuleCfgKey]
+			const moduleLoaded = await def.loadFunction(config!); // Not actually NON-null but typescript is dumb
 			debug(`Loaded module context for ${fsdir}`);
 			appCtx.modman.modules.set(fsdir, {
 				module: def,
