@@ -4,3 +4,4 @@ node_modules
 config/**
 !config/example.*
 public/**
+web/node_modules

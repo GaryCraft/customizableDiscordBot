@@ -6,7 +6,7 @@
 	"source": "src",
 	"types": "dist",
 	"engines": {
-		"node": ">=18.x"
+		"node": ">=20.x"
 	},
 	"type": "commonjs",
 	"scripts": {
@@ -16,7 +16,7 @@
 		"tsc": "tsc --build tsconfig.json",
 		"tsc-alias": "tsc-alias -p tsconfig.json",
 		"deploy": "npm run build && npm run start",
-		"dev": "npx nodemon --exec \"npm run deploy\" -e \"ts\""
+		"dev": "npx nodemon --exec \"npm run deploy\" -e \"ts\" -w src"
 	},
 	"repository": {
 		"type": "git",
@@ -31,34 +31,39 @@
 	"devDependencies": {
 		"@types/cookie-parser": "^1.4.6",
 		"@types/express": "^4.17.13",
-		"@types/node": "^17.0.25",
+		"@types/fs-extra": "^11.0.4",
+		"@types/node": "^20.14.8",
 		"@types/node-schedule": "^2.1.0",
 		"@typescript-eslint/eslint-plugin": "^5.29.0",
 		"@typescript-eslint/parser": "^5.29.0",
 		"eslint": "^8.13.0",
 		"sqlite3": "^5.1.6",
 		"tsc-alias": "^1.8.2",
-		"typescript": "^5.4.5"
+		"typescript": "5.4.5"
 	},
 	"dependencies": {
 		"@garycraft/orizuru": "^0.2.2",
 		"@spaceproject/findrecursive": "^1.0.4",
+		"@universal-middleware/express": "^0.0.2",
 		"chalk": "^4.1.2",
 		"cookie-parser": "^1.4.6",
 		"discord.js": "^14.14.1",
 		"eventemitter2": "^6.4.9",
 		"express": "^4.18.2",
+		"fs-extra": "^11.2.0",
 		"i18next": "^23.11.2",
 		"i18next-fs-backend": "^2.3.1",
 		"mysql2": "^3.10.0",
 		"node-schedule": "^2.1.1",
 		"parzival": "^0.6.2",
 		"reflect-metadata": "^0.2.1",
+		"rimraf": "^5.0.7",
 		"simple-git": "^3.24.0",
 		"socket.io": "^4.6.1",
 		"tmi.js": "^1.8.5",
 		"typeorm": "^0.3.17",
 		"uuid": "^9.0.1",
+		"vite": "^5.3.1",
 		"winston": "^3.7.2",
 		"zod": "^3.22.4"
 	}
