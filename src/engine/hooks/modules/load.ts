@@ -2,7 +2,7 @@ import fs from "fs";
 import Module, { ModuleCfgKey, XModuleConfigs } from "@src/engine/modules";
 import { ApplicationContext } from "@src/engine/types/Engine";
 import { debug, info, warn } from "@src/engine/utils/Logger";
-import { getRootPath, isRunningAsCompiled } from "@src/engine/utils/Runtime";
+import { getProcessPath, getRootPath, isRunningAsCompiled } from "@src/engine/utils/Runtime";
 import { objectSchemaFrom, validateObject } from "parzival";
 import { getConfigProperty } from "@src/engine/utils/Configuration";
 import { useImporterRecursive } from "@src/engine/utils/Importing";
@@ -14,6 +14,18 @@ import ModuleConfigs from "@src/config/modules";
 export default async function (appCtx: ApplicationContext) {
 	debug("Loading modules");
 	const fsdirs = fs.readdirSync(`${getRootPath()}/modules`);
+	// Stat .ud_mod_disabled file
+	const disabled = fs.statSync(`${getProcessPath()}/.ud_mod_disabled`);
+	if (disabled.isFile()) {
+		// Disable modules contained in the file
+		const disabledModules = fs.readFileSync(`${getProcessPath()}/.ud_mod_disabled`, "utf-8").split("\n");
+		for (const disabledModule of disabledModules) {
+			if (fsdirs.includes(disabledModule)) {
+				fsdirs.splice(fsdirs.indexOf(disabledModule), 1);
+				warn(`Disabled module ${disabledModule}`);
+			}
+		}
+	}
 	const moduleSchema = objectSchemaFrom(Module);
 	for (const fsdir of fsdirs) {
 		if (fs.statSync(`${getRootPath()}/modules/${fsdir}`).isDirectory()) {
