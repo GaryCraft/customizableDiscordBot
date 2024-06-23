@@ -75,7 +75,7 @@ export const isRunningAsCompiled = () => {
 };
 
 export const getWebPublicDir = () => {
-	return path.join(getRootPath(), '/public');
+	return path.join(getProcessPath(), '/public');
 };
 
 export const getModulePath = (module: string) => {
