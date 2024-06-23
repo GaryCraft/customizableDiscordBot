@@ -8,7 +8,7 @@ import { objectSchemaFrom, validateObject } from "parzival";
 export default async function(appCtx: ApplicationContext) {
 	const validationSchema = objectSchemaFrom(HTTPRouteHandler);
 	debug("Loading routes...");
-	await useImporterRecursive(`${getRootPath()}/routes`,
+	await useImporterRecursive(`${getRootPath()}/http/routes`,
 		function validator(routeFile: any, file, dir): routeFile is { default: HTTPRouteHandler } {
 			if (!routeFile?.default) {
 				warn(`Route ${file} from ${dir} has no default export`);
@@ -21,7 +21,7 @@ export default async function(appCtx: ApplicationContext) {
 			return true;
 		},
 		function loader(routeModule, file, dir) {
-			const parsedRoute = `${dir.replace(getRootPath() + "/routes", "")}/${file.split(".")[0]}`.replace(/\$/g, ":");
+			const parsedRoute = `${dir.replace(getRootPath() + "/http/routes", "")}/${file.split(".")[0]}`.replace(/\$/g, ":");
 			debug(`Registering route ${file} as ${parsedRoute}`);
 			const IRoute = appCtx.http.server.route(parsedRoute);
 			const route = routeModule.default;

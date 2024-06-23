@@ -4,7 +4,7 @@ import express from "express";
 import * as cookieParser from "cookie-parser";
 import { getProcessPath, getWebPublicDir } from "../utils/Runtime";
 import { error } from "../utils/Logger";
-import http from "http";
+import http from "node:http";
 
 export class HttpHandler {
 	private httpServer: http.Server;
@@ -31,13 +31,6 @@ export class HttpHandler {
 
 		this.server.get("/api-info", function (req, res) {
 			return res.send("This is an UtilityDust based API");
-		});
-
-		this.server.get("/", function (req, res) {
-			return res.sendFile(getProcessPath() + "/public/index.html", (optErr) => {
-				if (optErr)
-					error("Error sending index.html", optErr);
-			});
 		});
 	}
 	listen(port: number, cb?: () => void) {

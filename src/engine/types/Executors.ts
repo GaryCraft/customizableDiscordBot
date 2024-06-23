@@ -98,6 +98,18 @@ export class HTTPRouteHandler {
 	}
 }
 
+@Parseable()
+export class HTTPMiddleware {
+	@ValidateProperty({
+		type: "function",
+		validateArguments: false,
+		validateReturns: false
+	})
+	middleware(req: Request, res: Response, next: () => void): void {
+		throw new Error("Method not implemented.");
+	}
+}
+
 class WSHandlerSettings {
 	@ValidateProperty({
 		type: "string",

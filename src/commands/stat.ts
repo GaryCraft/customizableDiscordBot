@@ -32,13 +32,21 @@ export default {
 				break;
 			}
 			case "routes": {
-				const routesSize = app.http.server._router.length;
+				let routesSize = 0
+				let middlewareSize = 0
 				const table = [];
-				table.push(`${routesSize} routes loaded`);
 				for (const layer of app.http.server._router.stack) {
 					if(!layer.route) continue;
+					routesSize++;
 					table.push(`${layer.route.path}`);
 				}
+				for (const layer of app.http.server._router.stack) {
+					if(layer.route) continue;
+					middlewareSize++;
+					table.push(`${layer.name} at ${layer.regexp.toString()}`);
+				}
+				table.unshift(`${routesSize} routes loaded`);
+				table.unshift(`${middlewareSize} middlewares loaded`);
 				clear(table.join("\n"));
 				break;
 			}
