@@ -91,6 +91,11 @@ export default function log(level: LogType, message: string, ...args: any[]) {
 	// This function takes the import context and uses it to determine the calling module
 	// This is used to determine the module name for the log
 	const stack = new Error().stack || "";
+	if(level === "clear") {
+		const mod = getCurrentModule(stack);
+		console.log(chalk.white(`[${mod}] ${message}`));
+		return;
+	}
 	logger.log(
 		level,
 		args.length > 0 ? `${message}\n${streamlineArgs(args).join(" ")}` : message,
