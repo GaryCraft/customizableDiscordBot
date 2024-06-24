@@ -21,67 +21,42 @@ const HMR_PORT = 1421;
 
 export default {
 	name: "webui",
-	paths: {
-		routes: "http"
-	},
+	
 	loadFunction: async (config) => {
 		return new EventEmitter();
 	},
 	initFunction: async (ctx, config) => {
 		const appCtx = getAppContext();
 		const isProduction = process.env.NODE_ENV !== "development"
-		const result = await buildWebUI(WebBuildFromPath, WebBuildToPath);
-		if (!result) {
-			error("Failed to build webui");
-			return;
-		} else {
-			info("WebUI built successfully");
-		}
+		const v = await import("vite");
+		let vite;
+
 		if (isProduction) {
+			const result = await buildWebUI(WebBuildFromPath, WebBuildToPath);
+			if (!result) {
+				error("Failed to build webui");
+				return;
+			} else {
+				info("WebUI built successfully");
+			}
 			const clientPath = path.join(WebBuildToPath, "client");
 			// Expect the web build to be in the public directory
 			if (!fs.existsSync(clientPath)) {
 				error("Web build not found in public directory");
 				return;
 			}
-
-			appCtx.http.server.use('*', async (req, res) => {
-				try {
-					const url = req.originalUrl.replace("/", '')
-
-					const template = await fs.readFile(path.join(WebBuildToPath, '/client/index.html'), 'utf-8')
-					const render = (await import(`${WebBuildToPath}/server/entry-server.js`)).render
-
-					const { stream } = render(url, await fs.readFile(path.join(WebBuildToPath, '/client/.vite/ssr-manifest.json'), 'utf-8'))
-
-					const [htmlStart, htmlEnd] = template.split('<!--app-html-->')
-
-					res.status(200).set({ 'Content-Type': 'text/html' })
-
-					res.write(htmlStart)
-					for await (const chunk of stream) {
-						if (res.closed) break
-						res.write(chunk)
-					}
-					res.write(htmlEnd)
-					res.end()
-				} catch (e) {
-					error("Error serving web page", e)
-					res.status(500).send("Internal Server Error")
-				}
-			})
+			appCtx.http.server.use(express.static("web/dist/client"));
 		} else {
 			// Vite dev server
-			const vite = await import("vite");
 			debug("Starting Vite dev server");
-			const viteDevMiddleware = (
-				await vite.createServer({
-					root: WebBuildFromPath,
-					server: { middlewareMode: true, hmr: { port: HMR_PORT } },
-				}).catch((e: any) => {
-					error("Error starting vite dev server", e);
-				})
-			)?.middlewares;
+			vite = await v.createServer({
+				root: WebBuildFromPath,
+				server: { middlewareMode: true, hmr: { port: HMR_PORT } },
+				appType: "custom",
+			}).catch((e: any) => {
+				error("Error starting vite dev server", e);
+			})
+			const viteDevMiddleware = vite?.middlewares;
 			if (!viteDevMiddleware) {
 				error("Vite dev server failed to start");
 				return;
@@ -89,5 +64,51 @@ export default {
 			appCtx.http.server.use(viteDevMiddleware);
 			debug("Vite dev server started");
 		}
+
+		if (!vite) {
+			// error("Vite dev server not started, exiting");
+			return;
+		}
+
+		const template = isProduction ?
+			(await fs.readFile(path.join(WebBuildToPath, '/client/index.html'), 'utf-8')) :
+			(
+				await vite.transformIndexHtml(
+					"",
+					await fs.readFile(path.join(WebBuildFromPath, '/index.html'), 'utf-8')
+				)
+			)
+		const render = isProduction ?
+			(await import(`${WebBuildToPath}/server/entry-server.js`)).render :
+			(
+				await vite.ssrLoadModule(
+					path.join(WebBuildFromPath, '/src/entry-server')
+				)
+			).render
+
+		const ssrManifest = await fs.readFile(path.join(WebBuildToPath, '/client/.vite/ssr-manifest.json'), 'utf-8')
+
+		appCtx.http.server.use('*', async (req, res) => {
+			try {
+				console.log(req.originalUrl)
+				const url = req.originalUrl.replace("/", '')
+				const { stream } = render(url, isProduction ? ssrManifest : undefined, 'utf-8')
+
+				const [htmlStart, htmlEnd] = template.split('<!--app-html-->')
+
+				res.status(200).set({ 'Content-Type': 'text/html' })
+
+				res.write(htmlStart)
+				for await (const chunk of stream) {
+					if (res.closed) break
+					res.write(chunk)
+				}
+				res.write(htmlEnd)
+				res.end()
+			} catch (e) {
+				error("Error serving web page", e)
+				res.status(500).send("Internal Server Error")
+			}
+		})
 	}
 } satisfies Module<EventEmitter, "none">;
