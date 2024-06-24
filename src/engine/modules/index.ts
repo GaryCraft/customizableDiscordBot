@@ -1,4 +1,4 @@
-import EventEmitter from "events";
+import EventEmitter from "node:events";
 import { Parseable, ValidateProperty } from "parzival";
 import { GlobalConfig } from "../utils/Configuration";
 import { getAppContext } from "../utils/Composable";

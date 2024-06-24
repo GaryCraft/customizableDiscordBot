@@ -3,7 +3,7 @@ import Module, { getModule } from "@src/engine/modules";
 import { getAppContext } from "@src/engine/utils/Composable";
 import { debug, warn } from "@src/engine/utils/Logger";
 import { getProcessPath } from "@src/engine/utils/Runtime";
-import { EventEmitter } from "events";
+import { EventEmitter } from "node:events";
 import { readdir } from "fs/promises";
 import i18next, { i18n, TFunction } from "i18next";
 import Backend, { FsBackendOptions } from 'i18next-fs-backend';
