@@ -21,35 +21,55 @@ const HMR_PORT = 1421;
 
 export default {
 	name: "webui",
-	
+
 	loadFunction: async (config) => {
 		return new EventEmitter();
 	},
 	initFunction: async (ctx, config) => {
 		const appCtx = getAppContext();
-		const isProduction = process.env.NODE_ENV !== "development"
+		const isProduction = process.env.NODE_ENV === "production";
 		const v = await import("vite");
 		let vite;
 
-		if (isProduction) {
-			const result = await buildWebUI(WebBuildFromPath, WebBuildToPath);
-			if (!result) {
-				error("Failed to build webui");
-				return;
-			} else {
-				info("WebUI built successfully");
+		// When HMR is working, move this to the isProduction block
+		const result = await buildWebUI(WebBuildFromPath, WebBuildToPath);
+		if (!result) {
+			error("Failed to build webui");
+			return;
+		} else {
+			info("WebUI built successfully");
+		}
+
+		const clientPath = path.join(WebBuildToPath, "client");
+		// Expect the web build to be in the public directory
+		if (!fs.existsSync(clientPath)) {
+			error("Web build not found in public directory");
+			return;
+		}
+		appCtx.http.server.use(express.static("web/dist/client"));
+
+		// Watch for changes in the web directory and rebuild
+		fs.watch(path.join(
+			WebBuildFromPath,
+			"src"
+		), { recursive: true }, async (event, filename) => {
+			if (filename) {
+				const result = await buildWebUI(WebBuildFromPath, WebBuildToPath);
+				if (!result) {
+					error("Failed to build webui");
+					return;
+				} else {
+					info("WebUI built successfully");
+				}
 			}
-			const clientPath = path.join(WebBuildToPath, "client");
-			// Expect the web build to be in the public directory
-			if (!fs.existsSync(clientPath)) {
-				error("Web build not found in public directory");
-				return;
-			}
-			appCtx.http.server.use(express.static("web/dist/client"));
+		});
+		/* if (isProduction) {
+			// provisionally empty
 		} else {
 			// Vite dev server
 			debug("Starting Vite dev server");
 			vite = await v.createServer({
+				configFile: path.join(WebBuildFromPath, "vite.config.ts"),
 				root: WebBuildFromPath,
 				server: { middlewareMode: true, hmr: { port: HMR_PORT } },
 				appType: "custom",
@@ -65,9 +85,9 @@ export default {
 			debug("Vite dev server started");
 		}
 
-		if (!vite) {
-			// error("Vite dev server not started, exiting");
-			return;
+		if(!vite){
+			error("Vite not initialized")
+			return
 		}
 
 		const template = isProduction ?
@@ -79,7 +99,7 @@ export default {
 				)
 			)
 		const render = isProduction ?
-			(await import(`${WebBuildToPath}/server/entry-server.js`)).render :
+			(require(`${WebBuildToPath}/server/entry-server.js`)).render :
 			(
 				await vite.ssrLoadModule(
 					path.join(WebBuildFromPath, '/src/entry-server')
@@ -109,6 +129,6 @@ export default {
 				error("Error serving web page", e)
 				res.status(500).send("Internal Server Error")
 			}
-		})
+		}) */
 	}
 } satisfies Module<EventEmitter, "none">;

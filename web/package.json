@@ -11,16 +11,31 @@
     "preview": "cross-env NODE_ENV=production node server"
   },
   "dependencies": {
+    "@unovis/ts": "^1.4.1",
+    "@unovis/vue": "^1.4.1",
+    "@vueuse/core": "^10.11.0",
+    "@vueuse/head": "^0.9.8",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "compression": "^1.7.4",
     "express": "^4.19.2",
+    "lucide-vue-next": "^0.396.0",
+    "radix-vue": "^1.8.4",
     "sirv": "^2.0.4",
-    "vue": "^3.4.23"
+    "tailwind-merge": "^2.3.0",
+    "tailwindcss-animate": "^1.0.7",
+    "vue": "^3.4.23",
+    "vue-router": "^4.4.0"
   },
   "devDependencies": {
+    "@iconify-json/radix-icons": "^1.1.14",
+    "@iconify/vue": "^4.1.2",
     "@types/express": "^4.17.21",
-    "@types/node": "^20.12.7",
+    "@types/node": "^20.14.8",
     "@vitejs/plugin-vue": "^5.0.4",
+    "autoprefixer": "^10.4.19",
     "cross-env": "^7.0.3",
+    "tailwindcss": "^3.4.4",
     "typescript": "^5.4.5",
     "vite": "^5.2.10",
     "vue-tsc": "^2.0.14"
