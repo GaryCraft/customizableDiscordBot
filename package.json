@@ -44,6 +44,7 @@
 	"dependencies": {
 		"@garycraft/orizuru": "^0.2.2",
 		"@spaceproject/findrecursive": "^1.0.4",
+		"axios": "^1.7.2",
 		"chalk": "^4.1.2",
 		"cookie-parser": "^1.4.6",
 		"discord.js": "^14.14.1",

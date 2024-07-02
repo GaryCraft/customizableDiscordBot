@@ -24,4 +24,11 @@ export default defineConfig({
 		outDir: '../public',
 		emptyOutDir: true,
 	},
+	server: {
+		hmr: {
+			port: 5002,
+			host: "localhost",
+			protocol: "http"
+		}
+	}
 })

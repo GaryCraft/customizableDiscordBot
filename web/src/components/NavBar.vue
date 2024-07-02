@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="logo">
-			<h1>My Site</h1>
+			<h1>UtilityDust</h1>
 		</div>
 		<nav class="flex justify-center">
 			<ul class="flex space-x-4">
