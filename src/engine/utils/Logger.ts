@@ -55,7 +55,8 @@ function getLogDate() {
 const utilitydustformat = format.printf(({ level, message, ...meta }) => {
 	const color = getColor(level as LogType);
 	const timestamp = new Date().toISOString();
-	const callermodule = getCurrentModule(meta.stack || meta.error?.stack || "");
+	const metaError = meta.error ? (meta.error as Error) : undefined;
+	const callermodule = getCurrentModule(`${meta.stack}` || `${metaError?.stack}` || "");
 	return `[${chalk.underline(timestamp)}](${chalk.magenta(callermodule)}) ${level}: ${color(message)}`;
 });
 
